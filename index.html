@@ -6,139 +6,104 @@
     <title>Dossier Management Tool</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(120deg, #f4f4f9, #dfe6e9);
-            color: #333;
+            background-color: #f4f4f9;
         }
 
-        header {
-            background: linear-gradient(120deg, #007BFF, #0056b3);
+        .header {
+            background-color: #007bff;
             color: white;
-            padding: 1em 0;
+            padding: 20px;
             text-align: center;
-            font-size: 1.2em;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
+            font-size: 24px;
         }
 
-        header img {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            height: 60px;
-        }
-
-        main {
-            padding: 3em 1em;
-            text-align: center;
-        }
-
-        form {
+        .container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 2em;
-            max-width: 900px;
-            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+
+        .form-box {
             background: white;
-            padding: 2em;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 400px;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            width: 45%;
-        }
-
-        label {
-            margin-bottom: 0.5em;
+        .form-box label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: bold;
-            font-size: 1.1em;
         }
 
-        input, select {
-            padding: 12px;
-            width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            transition: all 0.3s ease;
+        .form-box input,
+        .form-box select {
+            width: calc(100% - 20px);
+            margin-bottom: 15px;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
 
-        input:focus, select:focus {
-            border-color: #007BFF;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-
-        button {
-            background: linear-gradient(120deg, #007BFF, #0056b3);
+        .form-box button {
+            background-color: #007bff;
             color: white;
             border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 1em;
-            padding: 12px 25px;
-            border-radius: 5px;
-            margin: 2em auto 0;
-            transition: background 0.3s ease;
-            display: block;
-        }
-
-        button:hover {
-            background: linear-gradient(120deg, #0056b3, #003d7a);
-        }
-
-        .required {
-            color: red;
-        }
-
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 1.5em 0;
-            position: relative;
-            bottom: 0;
+            font-size: 16px;
             width: 100%;
         }
 
-        footer p {
-            margin: 0;
-            font-size: 1em;
+        .form-box button:hover {
+            background-color: #0056b3;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
         }
     </style>
+    <script>
+        function downloadFile() {
+            const link = document.createElement('a');
+            link.href = 'Opulent_Knee System - IFU (4).pdf'; // Replace with the actual file path or URL
+            link.download = 'Opulent_Knee System - IFU.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </head>
 <body>
-    <header>
-        <img src="https://www.merillife.com/assets/images/logo.png" alt="Meril Logo">
-        <h1>Dossier Management Tool</h1>
-    </header>
+    <div class="header">
+        Dossier Management Tool
+    </div>
+    <div class="container">
+        <div class="form-box">
+            <form onsubmit="event.preventDefault(); downloadFile();">
+                <label for="generic-name">Enter Generic Name *</label>
+                <input type="text" id="generic-name" placeholder="Enter Generic Name">
 
-    <main>
-        <form id="dossierForm">
-            <div class="form-group">
-                <label for="genericName">Enter Generic Name <span class="required">*</span></label>
-                <input type="text" id="genericName" name="genericName" required>
-            </div>
-            <div class="form-group">
-                <label for="brandName">Enter Brand Name <span class="required">*</span></label>
-                <input type="text" id="brandName" name="brandName" required>
-            </div>
-            <div class="form-group">
-                <label for="mdCode">MD Code</label>
-                <input type="text" id="mdCode" name="mdCode">
-            </div>
-            <div class="form-group">
-                <label for="fdaCode">FDA Code</label>
-                <input type="text" id="fdaCode" name="fdaCode">
-            </div>
-            <div class="form-group">
-                <label for="regulation">Regulation <span class="required">*</span></label>
-                <select id="regulation" name="regulation" required>
+                <label for="brand-name">Enter Brand Name *</label>
+                <input type="text" id="brand-name" placeholder="Enter Brand Name">
+
+                <label for="md-code">MD Code</label>
+                <input type="text" id="md-code" placeholder="Enter MD Code">
+
+                <label for="fda-code">FDA Code</label>
+                <input type="text" id="fda-code" placeholder="Enter FDA Code">
+
+                <label for="regulation">Regulation *</label>
+                <select id="regulation">
                     <option value="">Select Regulation</option>
                     <option value="EU MDR">EU MDR</option>
                     <option value="US FDA">US FDA</option>
@@ -146,37 +111,13 @@
                     <option value="TGA">TGA</option>
                     <option value="ANVISA">ANVISA</option>
                 </select>
-            </div>
-            <button type="button" onclick="generateDossier()">Generate Dossier</button>
-        </form>
-    </main>
 
-    <footer>
-        <p>&copy; 2024 Meril Life Science. All rights reserved.</p>
-    </footer>
-
-    <script>
-        function generateDossier() {
-            const genericName = document.getElementById('genericName').value;
-            const brandName = document.getElementById('brandName').value;
-            const regulation = document.getElementById('regulation').value;
-
-            if (!genericName || !brandName || !regulation) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF();
-
-            pdf.text("Dossier Generated", 10, 10);
-            pdf.text(`Generic Name: ${genericName}`, 10, 20);
-            pdf.text(`Brand Name: ${brandName}`, 10, 30);
-            pdf.text(`Regulation: ${regulation}`, 10, 40);
-
-            pdf.save("dossier.pdf");
-        }
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+                <button type="submit">Generate Dossier</button>
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; 2024 Meril Life Science. All rights reserved.
+    </div>
 </body>
 </html>
