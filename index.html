@@ -32,7 +32,7 @@
             padding: 20px 30px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 400px;
+            width: 500px;
         }
 
         .form-row {
@@ -41,20 +41,17 @@
             margin-bottom: 15px;
         }
 
-        .form-row label {
+        .form-row div {
+            width: calc(50% - 10px);
+        }
+
+        label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
 
-        .form-row input {
-            width: calc(50% - 10px);
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .form-box select {
+        input, select {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -86,6 +83,15 @@
     </style>
     <script>
         function downloadFile() {
+            const genericName = document.getElementById('generic-name').value;
+            const brandName = document.getElementById('brand-name').value;
+            const regulation = document.getElementById('regulation').value;
+
+            if (!genericName || !brandName || !regulation) {
+                alert('Please fill in all required fields marked with *.');
+                return;
+            }
+
             const link = document.createElement('a');
             link.href = 'Opulent_Knee System - IFU (4).pdf'; // Replace with the actual file path or URL
             link.download = 'Opulent_Knee System - IFU.pdf';
@@ -105,11 +111,11 @@
                 <div class="form-row">
                     <div>
                         <label for="generic-name">Enter Generic Name *</label>
-                        <input type="text" id="generic-name" placeholder="Enter Generic Name">
+                        <input type="text" id="generic-name" placeholder="Enter Generic Name" required>
                     </div>
                     <div>
                         <label for="brand-name">Enter Brand Name *</label>
-                        <input type="text" id="brand-name" placeholder="Enter Brand Name">
+                        <input type="text" id="brand-name" placeholder="Enter Brand Name" required>
                     </div>
                 </div>
                 <div class="form-row">
@@ -123,7 +129,7 @@
                     </div>
                 </div>
                 <label for="regulation">Regulation *</label>
-                <select id="regulation">
+                <select id="regulation" required>
                     <option value="">Select Regulation</option>
                     <option value="EU MDR">EU MDR</option>
                     <option value="US FDA">US FDA</option>
