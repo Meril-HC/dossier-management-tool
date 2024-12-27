@@ -35,19 +35,31 @@
             width: 400px;
         }
 
-        .form-box label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
         }
 
-        .form-box input,
-        .form-box select {
-            width: calc(100% - 20px);
-            margin-bottom: 15px;
-            padding: 8px 10px;
+        .form-row label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-row input {
+            width: calc(50% - 10px);
+            padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
+        }
+
+        .form-box select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 15px;
         }
 
         .form-box button {
@@ -90,18 +102,26 @@
     <div class="container">
         <div class="form-box">
             <form onsubmit="event.preventDefault(); downloadFile();">
-                <label for="generic-name">Enter Generic Name *</label>
-                <input type="text" id="generic-name" placeholder="Enter Generic Name">
-
-                <label for="brand-name">Enter Brand Name *</label>
-                <input type="text" id="brand-name" placeholder="Enter Brand Name">
-
-                <label for="md-code">MD Code</label>
-                <input type="text" id="md-code" placeholder="Enter MD Code">
-
-                <label for="fda-code">FDA Code</label>
-                <input type="text" id="fda-code" placeholder="Enter FDA Code">
-
+                <div class="form-row">
+                    <div>
+                        <label for="generic-name">Enter Generic Name *</label>
+                        <input type="text" id="generic-name" placeholder="Enter Generic Name">
+                    </div>
+                    <div>
+                        <label for="brand-name">Enter Brand Name *</label>
+                        <input type="text" id="brand-name" placeholder="Enter Brand Name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div>
+                        <label for="md-code">MD Code</label>
+                        <input type="text" id="md-code" placeholder="Enter MD Code">
+                    </div>
+                    <div>
+                        <label for="fda-code">FDA Code</label>
+                        <input type="text" id="fda-code" placeholder="Enter FDA Code">
+                    </div>
+                </div>
                 <label for="regulation">Regulation *</label>
                 <select id="regulation">
                     <option value="">Select Regulation</option>
@@ -111,7 +131,6 @@
                     <option value="TGA">TGA</option>
                     <option value="ANVISA">ANVISA</option>
                 </select>
-
                 <button type="submit">Generate Dossier</button>
             </form>
         </div>
