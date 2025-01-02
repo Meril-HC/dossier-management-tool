@@ -4,74 +4,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dossier Management Tool</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            display: flex;
+            background-color: #f9f9f9;
+            color: #000;
+            min-height: 100vh;
+            flex-direction: column;
         }
 
-        .header {
-            background-color: #007bff;
-            color: white;
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
             padding: 20px;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            transition: transform 0.3s ease, left 0.3s ease;
+            transform: translateX(-100%);
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            left: 0;
+            transform: translateX(0);
+        }
+
+        .sidebar h2 {
             text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .sidebar ul li:hover {
+            background-color: #34495e;
+        }
+
+        .sidebar ul li.active {
+            background-color: #2980b9;
+        }
+
+        .sidebar ul li i {
+            margin-right: 10px;
+        }
+
+        .content {
+            flex: 1;
+            margin-left: 0;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .content.shifted {
+            margin-left: 250px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .top-bar .logo {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .top-bar .menu-toggle {
             font-size: 24px;
+            cursor: pointer;
+        }
+
+        .top-bar .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .top-bar .user-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .advertisement {
+            width: calc(100% - 250px);
+            height: auto;
+            margin: 20px auto;
+            border-radius: 8px;
+            overflow: hidden;
+            display: block;
         }
 
         .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background: #ffffff;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 40px;
+            width: 100%;
+            margin: 0;
+            box-sizing: border-box;
         }
 
-        .form-box {
-            background: white;
-            padding: 50px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 800px;
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
         }
 
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
+        .header h1 {
+            font-size: 28px;
+            margin: 0;
         }
 
-        .form-row div {
-            width: calc(50% - 20px);
+        .form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .form .full-width {
+            grid-column: span 2;
         }
 
         label {
+            font-size: 14px;
+            margin-bottom: 8px;
             display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
         }
 
         input, select {
             width: 100%;
-            padding: 15px;
+            padding: 10px;
+            background: #f1f1f1;
             border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 14px;
         }
 
-        .form-box button {
-            background-color: #007bff;
-            color: white;
+        button {
+            background: #007bff;
+            color: #ffffff;
             border: none;
-            padding: 15px;
-            border-radius: 4px;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 18px;
+            transition: background 0.3s;
             width: 100%;
         }
 
-        .form-box button:hover {
-            background-color: #0056b3;
+        button:hover {
+            background: #0056b3;
         }
 
         .footer {
@@ -80,8 +187,26 @@
             font-size: 14px;
             color: #666;
         }
+
+        .bottom-section {
+            margin-top: 20px;
+        }
+
+        .discover-text {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
     <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const content = document.querySelector('.content');
+            sidebar.classList.toggle('active');
+            content.classList.toggle('shifted');
+        }
+
         function downloadFile() {
             const genericName = document.getElementById('generic-name').value;
             const brandName = document.getElementById('brand-name').value;
@@ -102,47 +227,74 @@
     </script>
 </head>
 <body>
-    <div class="header">
-        Dossier Management Tool
+    <div class="sidebar">
+        <h2>Data Management</h2>
+        <ul>
+            <li class="active"><i class="fas fa-database"></i> Master Data Management</li>
+            <li><i class="fas fa-file-alt"></i> Document Control</li>
+            <li><i class="fas fa-tools"></i> Tool Configuration</li>
+            <li><i class="fas fa-user-cog"></i> User Management</li>
+            <li><i class="fas fa-chart-line"></i> Reporting</li>
+            <li><i class="fas fa-cogs"></i> Settings</li>
+        </ul>
     </div>
-    <div class="container">
-        <div class="form-box">
-            <form onsubmit="event.preventDefault(); downloadFile();">
-                <div class="form-row">
-                    <div>
-                        <label for="generic-name">Enter Generic Name *</label>
-                        <input type="text" id="generic-name" placeholder="Enter Generic Name" required>
-                    </div>
-                    <div>
-                        <label for="brand-name">Enter Brand Name *</label>
-                        <input type="text" id="brand-name" placeholder="Enter Brand Name" required>
-                    </div>
+    <div class="content">
+        <div class="top-bar">
+            <div class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+            <div class="logo">Dashboard</div>
+            <div class="user-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135768.png" alt="User Profile">
+                <div>
+                    <div>Bittu Jha</div>
+                    <div class="role">Admin</div>
                 </div>
-                <div class="form-row">
-                    <div>
-                        <label for="md-code">MD Code</label>
-                        <input type="text" id="md-code" placeholder="Enter MD Code">
-                    </div>
-                    <div>
-                        <label for="fda-code">FDA Code</label>
-                        <input type="text" id="fda-code" placeholder="Enter FDA Code">
-                    </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="header">
+                <h1>Dossier Management Tool</h1>
+            </div>
+            <form class="form" onsubmit="event.preventDefault(); downloadFile();">
+                <div>
+                    <label for="generic-name">Enter Generic Name *</label>
+                    <input type="text" id="generic-name" placeholder="Enter Generic Name" required>
                 </div>
-                <label for="regulation">Regulation *</label>
-                <select id="regulation" required>
-                    <option value="">Select Regulation</option>
-                    <option value="EU MDR">EU MDR</option>
-                    <option value="US FDA">US FDA</option>
-                    <option value="DCGI">DCGI</option>
-                    <option value="TGA">TGA</option>
-                    <option value="ANVISA">ANVISA</option>
-                </select>
-                <button type="submit">Generate Dossier</button>
+                <div>
+                    <label for="brand-name">Enter Brand Name *</label>
+                    <input type="text" id="brand-name" placeholder="Enter Brand Name" required>
+                </div>
+                <div>
+                    <label for="md-code">MD Code</label>
+                    <input type="text" id="md-code" placeholder="Enter MD Code">
+                </div>
+                <div>
+                    <label for="fda-code">FDA Code</label>
+                    <input type="text" id="fda-code" placeholder="Enter FDA Code">
+                </div>
+                <div class="full-width">
+                    <label for="regulation">Regulation *</label>
+                    <select id="regulation" required>
+                        <option value="">Select Regulation</option>
+                        <option value="EU MDR">EU MDR</option>
+                        <option value="US FDA">US FDA</option>
+                        <option value="DCGI">DCGI</option>
+                        <option value="TGA">TGA</option>
+                        <option value="ANVISA">ANVISA</option>
+                    </select>
+                </div>
+                <div class="full-width">
+                    <button type="submit">Generate Dossier</button>
+                </div>
             </form>
         </div>
-    </div>
-    <div class="footer">
-        &copy; 2024 Meril Life Science. All rights reserved.
+        <div class="bottom-section">
+            <div class="discover-text">Discover Meril Life Sciences</div>
+            <img src="https://www.merillife.com/assets/images/home-page-sliders/T5c3m7GPkAIzpqKoBj8M.jpg" alt="Advertisement" class="advertisement">
+            <div class="footer">
+                <p>Leading the way in innovative medical devices and solutions for a healthier world. Learn more at <a href="https://www.merillife.com" target="_blank">merillife.com</a>.</p>
+                <p>&copy; 2024 Meril Life Science. All rights reserved.</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>
